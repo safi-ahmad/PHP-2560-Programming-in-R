@@ -1,0 +1,159 @@
+library(tidyverse)
+library(broom)
+library(rlang)
+
+graph_function1 <- function(State, Year) {
+
+  #filter data
+  tobacco_data <- tobacco_data %>%
+    filter(state==!!(State) & year <= Year)
+  
+  #create plot of smoke_everyday over time    
+  ggplot(data=tobacco_data, aes(x=year, y=smoke_everyday)) + #make a plot from the filtered data
+    geom_line(size=1, alpha=0.5) + #line graph over time to show changing rates
+    geom_point() +
+    labs(title = "Percentage who Smoke Everyday over Time", x="Year", y="Percentage") +
+    theme_minimal()
+}  
+ 
+residual_function1 <- function(State, Year) {
+  #filter data
+  tobacco_data <- tobacco_data %>%
+    filter(state==!!(State) & year <= Year)
+  
+  #create model of smoke_everyday over time 
+  model1 <- lm(smoke_everyday ~ year, data = tobacco_data) 
+  summary(model1)
+  model.diagnostics1 <- augment(model1)
+  #head(model.diagnostics)
+  
+  
+  #create residual vs fit for smoke_everyday
+  ggplot(model.diagnostics1, aes(year, smoke_everyday)) +
+    geom_point() +
+    stat_smooth(method = lm, se = FALSE) +
+    geom_segment(aes(xend = year, yend = .fitted), color = "red", size = 0.3) +
+    labs(title ="Residuals vs Fitted Smoke Everyday", x = "Year", y = "Percentage")
+  
+} 
+
+#FOR SMOKE SOMEDAYS
+
+graph_function2 <- function(State, Year) {
+  
+  #filter data
+  tobacco_data <- tobacco_data %>%
+    filter(state==!!(State) & year <= Year)
+  
+  #create plot of smoke_some_days over time    
+  ggplot(data=tobacco_data, aes(x=year, y=smoke_some_days)) + #make a plot from the filtered data
+    geom_line(size=1, alpha=0.5) + #line graph over time to show changing rates
+    geom_point() +
+    labs(title = "Percentage who Smoke Some Days over Time", x="Year", y="Percentage") +
+    theme_minimal()
+}  
+
+residual_function2 <- function(State, Year) {
+  #filter data
+  tobacco_data <- tobacco_data %>%
+    filter(state==!!(State) & year <= Year)
+  
+  #create model of smoke_some_days over time 
+  model2 <- lm(smoke_some_days ~ year, data = tobacco_data) 
+  summary(model2)
+  model.diagnostics2 <- augment(model2)
+  #head(model.diagnostics)
+  
+  
+  #create residual vs fit for smoke_some_days
+  ggplot(model.diagnostics2, aes(year, smoke_some_days)) +
+    geom_point() +
+    stat_smooth(method = lm, se = FALSE) +
+    geom_segment(aes(xend = year, yend = .fitted), color = "red", size = 0.3) +
+    labs(title ="Residuals vs Fitted Smoke Some Days", x = "Year", y = "Percentage")
+  
+} 
+
+#For Never Smoked
+
+graph_function3 <- function(State, Year) {
+  
+  #filter data
+  tobacco_data <- tobacco_data %>%
+    filter(state==!!(State) & year <= Year)
+  
+  #create plot of never_smoked over time    
+  ggplot(data=tobacco_data, aes(x=year, y=never_smoked)) + #make a plot from the filtered data
+    geom_line(size=1, alpha=0.5) + #line graph over time to show changing rates
+    geom_point() +
+    labs(title = "Percentage who Never Smoked over Time", x="Year", y="Percentage") +
+    theme_minimal()
+}  
+
+residual_function3 <- function(State, Year) {
+  #filter data
+  tobacco_data <- tobacco_data %>%
+    filter(state==!!(State) & year <= Year)
+  
+  #create model of never_smoked over time 
+  model3 <- lm(never_smoked ~ year, data = tobacco_data) 
+  summary(model3)
+  model.diagnostics3 <- augment(model3)
+  #head(model.diagnostics)
+  
+  
+  #create residual vs fit for never_smoked
+  ggplot(model.diagnostics3, aes(year, never_smoked)) +
+    geom_point() +
+    stat_smooth(method = lm, se = FALSE) +
+    geom_segment(aes(xend = year, yend = .fitted), color = "red", size = 0.3) +
+    labs(title ="Residuals vs Fitted Never Smoked", x = "Year", y = "Percentage")
+  
+} 
+
+#For Former smokers
+
+graph_function4 <- function(State, Year) {
+  
+  #filter data
+  tobacco_data <- tobacco_data %>%
+    filter(state==!!(State) & year <= Year)
+  
+  #create plot of former_smoker over time    
+  ggplot(data=tobacco_data, aes(x=year, y=former_smoker)) + #make a plot from the filtered data
+    geom_line(size=1, alpha=0.5) + #line graph over time to show changing rates
+    geom_point() +
+    labs(title = "Percentage who are Former Smokers over Time", x="Year", y="Percentage") +
+    theme_minimal()
+}  
+
+residual_function4 <- function(State, Year) {
+  #filter data
+  tobacco_data <- tobacco_data %>%
+    filter(state==!!(State) & year <= Year)
+  
+  #create model of former_smoker over time 
+  model4 <- lm(former_smoker ~ year, data = tobacco_data) 
+  summary(model4)
+  model.diagnostics4 <- augment(model4)
+  #head(model.diagnostics)
+  
+  
+  #create residual vs fit for never_smoked
+  ggplot(model.diagnostics4, aes(year, former_smoker)) +
+    geom_point() +
+    stat_smooth(method = lm, se = FALSE) +
+    geom_segment(aes(xend = year, yend = .fitted), color = "red", size = 0.3) +
+    labs(title ="Residuals vs Fitted Former Smoker", x = "Year", y = "Percentage")
+  
+} 
+
+
+graph_function1("Arizona", 2008)
+residual_function1("Arizona", 2008) 
+graph_function2("Arizona", 2008)
+residual_function2("Arizona", 2008) 
+graph_function3("Arizona", 2008)
+residual_function3("Arizona", 2008)
+graph_function4("Arizona", 2008)
+residual_function4("Arizona", 2008)
